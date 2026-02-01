@@ -30,5 +30,5 @@ app.post('/messages', async (req, res) => {
 })
 
 app.listen(4242, () => {
-    console.log(`Server started on port http://localhost:4242`)
+    console.log(`Server started on port http://localhost:5500`)
 })

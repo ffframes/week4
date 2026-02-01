@@ -15,7 +15,6 @@ async function fetchData() {
 }
 
 
-
 async function displayMessages() {
   const messages = await fetchData()
 
