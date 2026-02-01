@@ -1,34 +1,17 @@
-import express from "express"
-import cors from "cors"
-import dotenv from "dotenv"
-import pg from "pg"
-    
-const app = express()
-app.use(express.json())
-app.use(cors())
-dotenv.config()
+import express from 'express';
+import cors from 'cors';
 
-const db = new pg.Pool({
-    connectionString: process.env.DB_CONN
-})
+const app = express();
+app.use(cors()); 
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hell')
-})
+const reviews = [];
 
-app.get('/messages', async (req, res) => {
-    const data = await db.query(`SELECT * FROM messages`)
-    const messages = data.rows
-    res.status(200).json(messages)
-})
+app.post('/submit-guestbook', (req, res) => {
+    const { name, message, 'stay-date': stayDate } = req.body;
+    reviews.push({ name, message, stayDate });
+    console.log('New Review:', req.body);
+    res.status(200).send({ message: 'Success!' });
+});
 
-app.post('/messages', async (req, res) => {
-    const userData = req.body
-    const dbQuery = await db.query(`INSERT INTO messages (msg_name, content) VALUES ($1, $2)`, [userData.msg_name, userData.content])
-
-    res.status(200).json({message: "added message"})
-})
-
-app.listen(4242, () => {
-    console.log(`Server started on port http://localhost:5500`)
-})
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
