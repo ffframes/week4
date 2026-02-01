@@ -10,4 +10,6 @@
 
 - i want whatever reviews people leave on the site to show up in the <section id="guestbook-entries"> 
 
-- 
+- need help sorting out supabase
+
+- submitting as it is, i tried but couldn't figure it out
