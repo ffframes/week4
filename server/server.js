@@ -10,6 +10,11 @@ app.use(express.json());
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error("ERROR");
+}
+
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.post('/submit-guestbook', async (req, res) => {
@@ -23,7 +28,8 @@ app.post('/submit-guestbook', async (req, res) => {
         message: message, 
         stay_date: stayDate 
       }
-    ]);
+    ])
+    .select();
 
   if (error) {
     console.error('Database error:', error.message);
@@ -34,4 +40,4 @@ app.post('/submit-guestbook', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
