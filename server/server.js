@@ -1,17 +1,33 @@
 import express from 'express';
 import cors from 'cors';
+import { createClient } from '@supabase/supabase-js';
+import 'dotenv/config';
 
 const app = express();
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
 
-const reviews = [];
+const supabase = createClient(
+  process.env.SUPABASE_URL, 
+  process.env.SUPABASE_ANON_KEY
+);
 
-app.post('/submit-guestbook', (req, res) => {
-    const { name, message, 'stay-date': stayDate } = req.body;
-    reviews.push({ name, message, stayDate });
-    console.log('New Review:', req.body);
-    res.status(200).send({ message: 'Success!' });
+app.post('/submit-guestbook', async (req, res) => {
+  const { name, message, 'stay-date': stayDate } = req.body;
+
+
+  const { data, error } = await supabase
+    .from('guestbook')
+    .insert([
+      { name: name, message: message, stay_date: stayDate }
+    ]);
+
+  if (error) {
+    console.error('Database error:', error.message);
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(200).json({ success: true, message: 'Submission saved!' });
 });
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3000, () => console.log('Server running on port 3000'));
