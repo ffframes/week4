@@ -8,7 +8,7 @@
 
 - HOW DO I GET THE SUPABASE TABLE TO UPDATE WITH DATA WHENEVER SOMEONE LEAVES A REVIEW ON THE WEBSITE?????
 
-- i want whatever reviews people leave on the site to show up in the <section id="guestbook-entries"> 
+- i want whatever reviews people leave on the site to show up in the guestbookentries 
 
 - need help sorting out supabase
 
